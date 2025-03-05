@@ -762,6 +762,12 @@ void Wait(struct Thread_Queue* waitQueue)
     struct Kernel_Thread* current = g_currentThread;
 
     KASSERT(!Interrupts_Enabled());
+    /* 如果为 MLF 调度策略则下次运行时线程应进入高一优先级的队列(即队列数减一)
+RR 调度策略时不受影响，因为已经运行在最高优先级的线程队列 */
+    if(current->pid!=IdleThread->pid && current->currentReadyQueue>0){
+        --current->currentReadyQueue;
+    }
+    current->blocked=true;
 
     /* Add the thread to the wait queue. */
     Enqueue_Thread(waitQueue, current);

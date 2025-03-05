@@ -78,6 +78,12 @@ static struct User_Context* Create_User_Context(ulong_t size)
     /* 将引用数清零 */     
     userContext->refCount = 0; 
 
+    // if (userSegDebug) {
+    //     Print(" virtSpace = %lx\n", (ulong_t)userContext->memory);
+    //     Print(" virtSize = %lx\n", (ulong_t)size / PAGE_SIZE);
+    //     Print(" codeSelector = %x\n", userContext->csSelector);
+    //     Print(" dataSelector = %x\n", userContext->dsSelector);
+    // }
     return userContext; 
 } 
 /* TODO: Implement
